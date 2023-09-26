@@ -1,0 +1,8 @@
+﻿  DataBase-split.cpp
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Quiz.h(2,9): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Phone.h(35,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Mail.h(34,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Profile.h(111,45): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Profile.h(117,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\DataBase-split.cpp(14,19): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  DataBase-split.vcxproj -> E:\G [docs]\C++ learn\DataBase-split\x64\Debug\DataBase-split.exe
