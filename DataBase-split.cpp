@@ -14,11 +14,13 @@ int main()
 	srand(time(NULL) + clock());
 
 	Header();
+	const string datafile = "users.csv";
+	const string quizfile = "quiz.csv";
 	try {
-		string filename = "filename.csv";
-
-		Database database(filename);
-		Quiz quiz(&database);
+		Database database(datafile);
+		Quizbase quizbase(quizfile);
+		Category category(catfile);
+		Quiz quiz(&database, &quizbase);
 		Profile profile(&database, &quiz);
 		while (true)
 		{

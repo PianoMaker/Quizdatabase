@@ -203,12 +203,18 @@ public:
 	void Quiz()
 	{
 		/* прохдження тесту */
-		if (currentID == 0 || role != student) cout << "\nтести можуть проходити лише зареєстровані студенти";
-		else
+		
+		if (role == student)
 		{
 			cout << "\nви проходите тест як студент " << database->Getstudents(currentID - 1).GetLogin();
-			quiz->Demo();
+			quiz->Student();
 		}
+		else if (role == admin)
+		{
+			cout << "\nви працюєте як адмін " << database->Getadmins(currentID - 1).GetLogin();
+			quiz->Admin();
+		}
+		else cout << "\nз тестами можуть працювати лише зареєстровані користувачі";
 	}
 
 	void Write()

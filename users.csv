@@ -1,0 +1,11 @@
+admin	0	New	testpassword	testpassword	testpassword
+admin	1	12345	testpassword	testpassword	testpassword
+admin	2	123456	testpassword	testpassword	testpassword
+admin	3	testg	testg1*	testg1*	testg1*
+admin	4	test2	test2-	test2@reom.om	1234578
+admin	5	test3	test3*	test3@example.com	123457843
+admin	6	admin	admin1*	admin@admin.com	123456789
+admin	7	admin0	admin0*	admin@admin.admin	123456789
+student	0	New	testpassword	testpassword	testpassword
+student	1	12345	testpassword	testpassword	testpassword
+student	2	123456	testpassword	testpassword	testpassword

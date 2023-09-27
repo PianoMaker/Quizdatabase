@@ -17,7 +17,7 @@ public:
 		else if (role == student)
 			cout << "\n3 - log out, 5 - take quiz, 0 - exit";
 		else if (role == admin)
-			cout << "\n3 - log out, 4 - show database, 6 - write; 7 - read; 0 - exit";
+			cout << "\n3 - log out, 4 - show database, 5 - take quiz, 6 - write; 7 - read; 0 - exit";
 		cout << endl;
 	}
 	int choice(int role)
@@ -35,10 +35,11 @@ public:
 			else if (role == unlogged && (txt == "2" || txt == "s" || txt == "S")) return 2;
 			else if (role != unlogged && (txt == "3" || txt == "l" || txt == "L")) return 3;
 			else if (role == admin && txt == "4") return 4;
-			else if (role == student && (txt == "5" || txt == "q" || txt == "Q")) return 5;
+			else if (role != unlogged && (txt == "5" || txt == "q" || txt == "Q")) return 5;
 			else if (role == admin && txt == "6") return 6;
 			else if (role == admin && txt == "7") return 7;
 			else if (txt == "8") return 4; // секретний
+			else if (txt == "9") return 5; // секретний
 			else Message(12, "This choice is impossible, try once more\n");
 		} while (true);
 

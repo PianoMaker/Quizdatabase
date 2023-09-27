@@ -7,6 +7,7 @@
 #include"Password.h"
 #include "Phone.h"
 #include "Mail.h"
+#include"Results.h"
 
 class Person
 {
@@ -15,6 +16,7 @@ protected:
 	Password password;
 	Phone phone;
 	Mail mail;
+	Results results;
 public:
 	//Person() { Message(10, "Person destructor is running"); };
 	string GetPassword()
@@ -35,6 +37,7 @@ public:
 	}
 	Person(string login, string password, string phone, string mail)
 	{
+		GrayMessage("+p ");
 		this->login.SetLogin(login);
 		this->password.SetPassword(password);
 		this->phone.SetPhone(phone);
@@ -42,13 +45,13 @@ public:
 	}
 	Person(Login login, Password password, Phone phone, Mail mail)
 	{
-		cout << "\n\tпрацює конструктор студент з параметрами";
+		GrayMessage("+p ");
 		this->login.SetLogin(login.GetLogin());
 		this->password.SetPassword(password.GetPassword());
 		this->mail.SetMail(mail.GetMail());
 		this->phone.SetPhone(phone.GetPhone());
 	}
-	~Person() { GrayMessage("Person destructor is running \n"); Sleep(10); };
+	~Person() { GrayMessage("~p\n"); Sleep(10); };
 };
 
 class Student : public Person
@@ -59,10 +62,13 @@ public:
 	Student(Login login, Password password, Phone phone, Mail mail) : 
 		Person(login, password, phone, mail)
 	{
+		GrayMessage("+p ");
 		marks = 0;
 	}
 	Student(string login, string password, string phone, string mail)
-		: Person(login, password, phone, mail) {};
+		: Person(login, password, phone, mail) {
+		GrayMessage("+p ");
+	};
 
 	void SetMarks(int marks)
 	{
@@ -75,9 +81,13 @@ class Admin : public Person
 {
 public:
 	Admin(Login login, Password password, Phone phone, Mail mail) :
-		Person(login, password, phone, mail) {};
+		Person(login, password, phone, mail) {
+		GrayMessage("+p ");
+	};
 	Admin(string login, string password, string phone, string mail)
-		: Person(login, password, phone, mail) {};
+		: Person(login, password, phone, mail) {
+		GrayMessage("+p ");
+	};
 
 
 };
