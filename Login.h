@@ -1,3 +1,6 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 #pragma once
 #include "global.h"
 #include"messages.h"
@@ -19,11 +22,11 @@ public:
 
 	void Insert()
 	{
-		WelcomeMessage("Enter login\n");
+		Message(green,"Enter login\n");
 		string temp;
 		CINIGNORE;
 		getline(cin, temp);
-		if (!CheckLogin(temp)) Insert();
+		if (temp != "-" && !CheckLogin(temp)) Insert();
 		SetLogin(temp);
 	}
 	
@@ -31,7 +34,7 @@ public:
 	{
 		if (temp.length() < 5)
 		{
-			Message(14,"Login must contain at least 5 symbols\n");
+			Message(yellow,"Login must contain at least 5 symbols\n");
 			return false;
 		}
 		else return true;

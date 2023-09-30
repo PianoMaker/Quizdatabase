@@ -14,6 +14,7 @@ private:
 	vector<Admin> admins;
 	ifstream read;
 	ofstream write;
+	vector<Results> results;
 
 
 public:
@@ -37,11 +38,11 @@ public:
 		admins.push_back(newadmin);
 		Write();
 	}
-	vector<Student> Getstudents()
+	vector<Student> StudentInfo()
 	{
 		return students;
 	}
-	Student Getstudents(int num)
+	Student StudentInfo(int num)
 	{
 		//cout << "\nдає інфо про еклемпляр класу студент за номером num";
 		return students[num];
@@ -55,16 +56,26 @@ public:
 		//cout << "\nдає інфо про еклемпляр класу адммін за номером num";
 		return admins[num];
 	}
+	void RefreshResluts(int index, vector<Results> results)
+	{
+		students[index].SetResults(results);
+		Message(yellow, "Оновлення результатів\n");
+		system("pause");
+	}
+
 	void Show()
 	{
 	/* БД виводиться на екран */
-		WelcomeMessage("\n\tПеревірка бази даних\n");
+		Message(green,"\n\tПеревірка бази даних\n");
 		cout << "\nусі студенти (знайдено " << students.size() << ")\n";
 		for (int i = 0; i < students.size(); i++)
 			cout << students[i].GetLogin() 
 			<< "\t" << students[i].GetPassword() 
 			<< "\t" << students[i].GetMail() 
-			<< "\t" << students[i].GetPhone() << endl;
+			<< "\t" << students[i].GetPhone() 
+			<< "\t" << students[i].ResultsSize()
+			<< endl;
+
 
 		cout << "\nусі адміни(знайдено " << admins.size() << ")\n";
 		for (int i = 0; i < admins.size(); i++)
@@ -75,13 +86,14 @@ public:
 		CINIGNORE;
 
 	}
-	bool SearchStudent(int& index, string log)
+	bool SearchStudent(int& index, string log, int& progress)
 	{
-		/* пошук студента зі збереження ID */
+		/* пошук студента зі збереження ID  та здобутків */
 		for (int i = 0; i < students.size(); i++)
 			if (!log.compare(students[i].GetLogin()))
 			{
 				index = i;
+				progress = students[i].GetProgress();
 				return true;
 			}
 		return false;
@@ -90,7 +102,8 @@ public:
 	{
 		/* простий пошук студента */
 		for (int i = 0; i < students.size(); i++)
-			if (!log.compare(students[i].GetLogin())) return true;
+			if (!log.compare(students[i].GetLogin())) 							
+				return true;
 		return false;
 	}
 	bool SearchAdmin(int& index, string log)
@@ -125,13 +138,14 @@ public:
 			<< "\t" << admins[i].GetPhone()
 			<< endl;
 		for (int i = 0; i < students.size(); i++)
-			write << "student" << "\t" << i 
-			<< "\t" << admins[i].GetLogin()
-			<< "\t" << admins[i].GetPassword()
-			<< "\t" << admins[i].GetMail()
-			<< "\t" << admins[i].GetPhone()
+			write << "student" << "\t" << i
+			<< "\t" << students[i].GetLogin()
+			<< "\t" << students[i].GetPassword()
+			<< "\t" << students[i].GetMail()
+			<< "\t" << students[i].GetPhone()
+			<< "\t" << students[i].StringResults()
 			<< endl;
-		GrayMessage("\nDatabase has been updated\n");
+		Message(gray,"\nDatabase has been updated\n");
 		Sleep(1000);
 	}
 
@@ -140,10 +154,11 @@ public:
 		/* завантаження БД з файлу */
 
 		read.open(filename);
-		if (!read) ErrorMessage("\nFile is inaccessible\n");
+		if (!read) Message(red,"\nFile is inaccessible\n");
 		else cout << "\nreading file\n";
 
-		string line; int temprole; string templogin; string temppassword; string tempmail; string tempphone;
+		string line; int temprole; string templogin, temppassword, tempmail, tempphone; 
+		string tempresults;
 		while (getline(read, line))
 		{
 			istringstream iss(line);
@@ -162,16 +177,19 @@ public:
 			tempmail = token;
 			getline(iss, token, '\t');
 			tempphone = token;
-			if (temprole == admin)
+			if (temprole == student)
+			{
+				getline(iss, token, '\t');
+				tempresults = token;
+				Student newstudent(templogin, temppassword, tempphone, tempmail, tempresults);
+				students.push_back(newstudent);
+			}
+			else if (temprole == admin)
 			{
 				Admin newadmin(templogin, temppassword, tempphone, tempmail);
 				admins.push_back(newadmin);
 			}
-			else if (temprole == student)
-			{
-				Student newstudent(templogin, temppassword, tempphone, tempmail);
-				students.push_back(newstudent);
-			}
+
 			else throw 7;
 		}
 
@@ -184,7 +202,7 @@ public:
 
 	~Database()
 	{
-		GrayMessage("DB destructor is running\n"); 
+		Message(gray,"DB destructor is running\n"); 
 		write.close();
 	}
 };

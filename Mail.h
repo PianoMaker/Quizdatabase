@@ -21,7 +21,7 @@ public:
 
 	void Insert()
 	{
-		WelcomeMessage("Enter mail\n");
+		Message(green,"Enter mail\n");
 		string temp;
 		getline(cin, temp);
 		if (!CheckMail(temp)) Insert();

@@ -21,7 +21,7 @@ public:
 	void Insert(int &attempts)
 	{
 		if (!attempts) {
-			WelcomeMessage("\nInsert new password");
+			Message(green,"\nInsert new password");
 			cout << "\nminimum " << magicvalue << " symbols, at least 1 digit, 1 letter and 1 punch\n";
 		}
 		string temp;

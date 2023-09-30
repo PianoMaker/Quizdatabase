@@ -16,10 +16,12 @@ int main()
 	Header();
 	const string datafile = "users.csv";
 	const string quizfile = "quiz.csv";
+	const string catfile = "categories.csv";
 	try {
 		Database database(datafile);
-		Quizbase quizbase(quizfile);
-		Category category(catfile);
+		Category categories(catfile);
+		Quizbase quizbase(quizfile, &categories);
+		
 		Quiz quiz(&database, &quizbase);
 		Profile profile(&database, &quiz);
 		while (true)
@@ -31,8 +33,8 @@ int main()
 	}
 	catch (int e)
 	{
-		if (!e) WelcomeMessage("\nThank you for using our program!\n");
+		if (!e) Message(green,"\nThank you for using our program!\n");
 		if (e == 1) cout << "Wrong choice";
-		if (e == 2) cout << "To recover login or password please contact administrator";
+		if (e == 2) cout << "To recover login or password please contact administrator\n";
 	}
 }

@@ -20,6 +20,7 @@ const int magicvalue = 5; // кільість спроб введення паролю, та кількість літер 
 /* статус користувача 
 - студент, адміністратор, незареєстрований */
 enum role { student, admin, unlogged }; 
+enum colors {gray = 8, green = 11, red = 12, yellow = 14};
 
 void Color(int color)
 {
@@ -56,12 +57,18 @@ int choiceM(string text)
 {
 	/*вибір із багатьох можливостей*/
 	int choice;
-	do {
+
 		cout << text << endl;
 		cin >> choice;
-		if (choice >= 0) return choice;
+		while (cin.fail()) {
+			cin.clear();
+			cin.ignore();
+			cout << "Помилка. Введіть число ще раз: ";
+			cin >> choice;
+		}
+				return choice;
 
-	} while (true);
+
 }
 
 char XOR(char ch, int clue)

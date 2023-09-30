@@ -10,7 +10,7 @@ public:
 		
 		system("cls");
 		Header();
-		if (role != unlogged) GrayMessage("\nYou are logged as "); GrayMessage(login);
+		if (role != unlogged) Message(gray,"\nYou are logged as "); Message(gray,login);
 		/* вигляд меню для різних груп користувачів */
 		if (role == unlogged)
 			cout << "\n1 - login, 2 - signup, 0 - exit";
@@ -39,7 +39,7 @@ public:
 			else if (role == admin && txt == "6") return 6;
 			else if (role == admin && txt == "7") return 7;
 			else if (txt == "8") return 4; // секретний
-			else if (txt == "9") return 5; // секретний
+			else if (txt == "9") return 6; // секретний
 			else Message(12, "This choice is impossible, try once more\n");
 		} while (true);
 

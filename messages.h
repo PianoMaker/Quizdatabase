@@ -10,20 +10,7 @@ void Message(int color, string txt)
 	Color(7);
 }
 
-void ErrorMessage(string txt)
-{
-	Message(12, txt);
-}
 
-void WelcomeMessage(string txt)
-{
-	Message(11, txt);
-}
-
-void GrayMessage(string txt)
-{
-	Message(8, txt);
-}
 
 /* повідомлення для списку помилок під час генерування текстових полів */
 class MultiMessage
@@ -48,7 +35,7 @@ public:
 	void Show()
 	{
 		if (!accept) {
-			ErrorMessage("Errors found:\n");
+			Message(red,"Errors found:\n");
 			cout << message;
 			Message(6, "\nTry again\n");
 		}

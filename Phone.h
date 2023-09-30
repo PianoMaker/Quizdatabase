@@ -12,7 +12,7 @@ private:
 public:
 	void InsertPhone()
 	{
-		WelcomeMessage("Enter phone\n");
+		Message(green,"Enter phone\n");
 		string temp;
 		getline(cin, temp);
 		if (!CheckPhone(temp)) InsertPhone();

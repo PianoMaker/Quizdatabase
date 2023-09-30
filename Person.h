@@ -16,7 +16,7 @@ protected:
 	Password password;
 	Phone phone;
 	Mail mail;
-	Results results;
+	
 public:
 	//Person() { Message(10, "Person destructor is running"); };
 	string GetPassword()
@@ -37,7 +37,7 @@ public:
 	}
 	Person(string login, string password, string phone, string mail)
 	{
-		GrayMessage("+p ");
+		Message(gray,"+p ");
 		this->login.SetLogin(login);
 		this->password.SetPassword(password);
 		this->phone.SetPhone(phone);
@@ -45,35 +45,86 @@ public:
 	}
 	Person(Login login, Password password, Phone phone, Mail mail)
 	{
-		GrayMessage("+p ");
+		Message(gray,"+p ");
 		this->login.SetLogin(login.GetLogin());
 		this->password.SetPassword(password.GetPassword());
 		this->mail.SetMail(mail.GetMail());
 		this->phone.SetPhone(phone.GetPhone());
 	}
-	~Person() { GrayMessage("~p\n"); Sleep(10); };
+	~Person() { Message(gray,"~p\n"); Sleep(10); };
 };
 
 class Student : public Person
 {
 private:
-	int marks;
+	vector<Results> results;
+	int progress;
 public:
 	Student(Login login, Password password, Phone phone, Mail mail) : 
 		Person(login, password, phone, mail)
 	{
-		GrayMessage("+p ");
-		marks = 0;
+		Message(gray,"+p ");
+		
 	}
-	Student(string login, string password, string phone, string mail)
-		: Person(login, password, phone, mail) {
-		GrayMessage("+p ");
-	};
-
-	void SetMarks(int marks)
+	Student(string login, string password, string phone, string mail, string tempresults)
+		: Person(login, password, phone, mail) 
 	{
-		this->marks = marks;
+		/* застосовується під час зчитування файлу */
+		ReadResults(tempresults);
+		Message(gray,"+p ");
+	};
+	string StringResults()
+	{
+		string allresult;
+		for (int i = 0; i < results.size(); i++)
+			allresult.append(results[i].GetString()).append(";");
+		return allresult;
 	}
+	vector<Results> GetResults()
+	{
+		Message(yellow, "Імпорт результатів");
+		system("pause");
+		return results;
+	}
+
+	int ResultsSize()
+	{
+		return results.size();
+	}
+	
+	void SetResults(vector<Results> results)
+	{
+		this->results = results;
+		Message(gray, "результати записано в базу даних\n");
+		cout << "size = " << results.size() << endl;
+		system("pause");
+	}
+
+	
+
+
+	int GetProgress()
+	{ return progress; }
+
+	void ReadResults(string tempresults)
+	{
+		istringstream iss(tempresults);
+		string token;
+
+		progress = 0;
+		while (getline(iss, token, ';')) {
+			// Розділяємо вичитаний з файлу рядок на числа та знаки за ":"
+			size_t pos = token.find(":");
+			if (pos != string::npos && pos > 0 && pos < token.length() - 1) {
+				int number = stoi(token.substr(0, pos));
+				char sign = token[pos + 1];
+				Results newresult(number, sign);
+				results.push_back(newresult);
+				progress = newresult.GetQID() + 1;
+			}
+		}
+	}
+
 
 };
 
@@ -82,11 +133,11 @@ class Admin : public Person
 public:
 	Admin(Login login, Password password, Phone phone, Mail mail) :
 		Person(login, password, phone, mail) {
-		GrayMessage("+p ");
+		Message(gray,"+p ");
 	};
 	Admin(string login, string password, string phone, string mail)
 		: Person(login, password, phone, mail) {
-		GrayMessage("+p ");
+		Message(gray,"+p ");
 	};
 
 

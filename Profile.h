@@ -12,9 +12,12 @@ private:
 	Mail mail;
 	Phone phone;
 	Database* database;
+	//Quizbase* quizbase;
 	Quiz* quiz;
+	vector<Results> results;
 	int role;
 	int currentID;
+	int progress;
 
 
 public:
@@ -50,7 +53,7 @@ public:
 
 		//cout << "\n\tзапущено LogIn\n";
 		int index = 0;
-		WelcomeMessage( "Type login\n");
+		Message(green, "Type login\n");
 		CINIGNORE;
 		string temp;
 		getline(cin, temp);
@@ -59,20 +62,23 @@ public:
 
 		if (database->SearchAdmin(index, temp))
 		{
-			cout << "\nв базі знайдено адміна з такимм логіном";
+			cout << "\nв базі знайдено адміна з таким логіном\n";
 			cout << "\nіндекс = " << index << endl;		
 			CheckPassword(index, admin, attempts);
 			role = admin;
 			currentID = index + 1;
 			login.SetLogin(temp);
+			
 		}
-		else if (database->SearchStudent(index, login.GetLogin()))
+		else if (database->SearchStudent(index, temp, progress))
 		{
-			cout << "\nв базі знайдено студента з такимм логіном";
+			cout << "\nв базі знайдено студента з такимм логіном\n";
 			CheckPassword(index, student, attempts);
 			role = student;
 			currentID = index + 1;
 			login.SetLogin(temp);
+			results = database->StudentInfo(currentID - 1).GetResults();/*імпортуємо результати*/
+			progress = results.size();
 		}
 		else
 		{
@@ -84,7 +90,9 @@ public:
 			case 1: LogIn(); break;
 			case 2: SignUp(); break;
 			case 3: Menu(); break;
-			default: throw 1;
+			default: 
+				Message(red,"wrong choice\n");
+				Menu(); break;
 			}
 
 		}
@@ -98,21 +106,22 @@ public:
 		if (role == unlogged)
 		{
 			int attempts = 0;
-			InsertLogin(attempts);
-			password.Insert(attempts);
-			mail.Insert();
-			phone.InsertPhone();
+			InsertLogin(attempts);/*встановлення логіну*/
+			if (role != unlogged) return;/* лазівка для тих, хто передумав реєструватись*/
+			password.Insert(attempts);/*встановлення паролю*/
+			mail.Insert();/*встановлення е-пошти*/
+			phone.InsertPhone();/*встановлення телефону*/
 			if (choice("student", "admin")) role = student;
 			else role = admin;
 			if (role == student)
 			{
-				Student newstudent(login, password, phone, mail);
+				Student newstudent(login, password, phone, mail);/*створюємо студента*/
 				database->AddStudent(newstudent);
-				currentID = database->Getstudents().size();
+				currentID = database->StudentInfo().size();
 			}
 			else if (role == admin)
 			{
-				Admin newadmin(login, password, phone, mail);
+				Admin newadmin(login, password, phone, mail);/*створюємо адміна*/
 				database->AddAdmin(newadmin);
 				currentID = database->Getadmins().size();
 			}
@@ -130,14 +139,17 @@ public:
 
 	void InsertLogin(int &attempts)
 	{
+		Message(gray,"Insert \"-\" to return\n");
 		Login temp;
 		temp.Insert();
 		if (attempts >= 5) throw 2;
-		if (!CheckLogin(temp.GetLogin(), attempts)) InsertLogin(attempts);
+		else if (temp.GetLogin() == "-") Menu();
+		else if (!CheckLogin(temp.GetLogin(), attempts)) InsertLogin(attempts);
 		else
 		{
-			login = temp; attempts = 0;
+			 login = temp; attempts = 0;
 		}
+		
 	}
 
 	/* перевірка на унікальність */
@@ -147,7 +159,7 @@ public:
 			return true;
 		else
 		{
-			ErrorMessage("This login is already used, try another!\n");
+			Message(red,"This login is already used, try another!\n");
 			attempts++;/*обмеження до 5 спроб*/
 			return false;
 		}
@@ -159,7 +171,7 @@ public:
 		/* перевірка чи правильний пароль */
 		try {
 			string temppassword; 
-			WelcomeMessage( "Enter password\n");
+			Message(green, "Enter password\n");
 			getline(cin, temppassword);
 			if (role == admin)
 			{
@@ -177,7 +189,7 @@ public:
 			}
 			else if (role == student)
 			{
-				if (!temppassword.compare(database->Getstudents(num).GetPassword()))
+				if (!temppassword.compare(database->StudentInfo(num).GetPassword()))
 					cout << "\nsuccess";
 				else
 				{
@@ -195,10 +207,11 @@ public:
 	}
 	void Exit()
 	{
-		Message(14, "Are you sure you want to exit?");
+		Message(yellow, "Are you sure you want to exit?");
 		if (choice("No", "Yes")) Menu();
 		else throw 0;
 	}
+
 
 	void Quiz()
 	{
@@ -206,16 +219,22 @@ public:
 		
 		if (role == student)
 		{
-			cout << "\nви проходите тест як студент " << database->Getstudents(currentID - 1).GetLogin();
-			quiz->Student();
+			cout << "\nви проходите тест як студент " << database->StudentInfo(currentID - 1).GetLogin();
+			quiz->StudentQuiz(progress, results);/* параметри з &, результати зберігаємо */
+			Message(yellow, "DB\n"); 
+			system("pause");
+			database->RefreshResluts(currentID - 1, results);
+			//Write();
 		}
 		else if (role == admin)
 		{
 			cout << "\nви працюєте як адмін " << database->Getadmins(currentID - 1).GetLogin();
-			quiz->Admin();
+			quiz->AdminQuiz();
 		}
 		else cout << "\nз тестами можуть працювати лише зареєстровані користувачі";
+
 	}
+
 
 	void Write()
 	{

@@ -1,3 +1,6 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
 #pragma once
 #include "global.h"
 #include"messages.h"
@@ -11,42 +14,47 @@ private:
 public:
 	Category(string categoryfile) : categoryfile(categoryfile)
 	{
-		Read();
+		Message(gray,"+c");
+		//Read();
 	};
 	void AddCat(string txt)
 	{
 		categories.push_back(txt);
-		Write();
+		
 	}
 	string GetCat(int num)
 	{
 		return categories[num];
 	}
+	/* всі категорії на екрані */
 	void ShowAll()
 	{
-		for (string i : categories)
+		for (int i=0; i<categories.size(); i++)
 		{
 			Color(8);
-			cout << i << " ";
+			cout << i << " " << GetCat(i) << "; ";
 		}
 	};
+	/* чи вже існує категорія з такою назвою */
 	bool IfMatch(string txt)
 	{
 		for (int i = 0; i < categories.size(); i++)
 			if (categories[i] == txt)
-					return true;
+				return true;
 		return false;
 	}
+	/* категорії що складаються лише з цифр або спец.символів не пропускаємо */
 	bool IfEligible(string txt)
 	{
 		for (int i = 0; i < txt.size(); i++)
 			if (isalpha(txt[i])) return true;
 		return false;
 	}
+	/* ввід категорії питання */
 	string EnterCat()
 	{
 		int num = 0;
-		WelcomeMessage("Вкажіть категорію\n");
+		Message(green,"Вкажіть категорію\n");
 		Message(7, "оберіть з існуючих:\n");
 		ShowAll();
 		Message(7, "або введіть назву нової категорії\n");
@@ -56,19 +64,25 @@ public:
 			getline(cin, choice);
 			if (IfMatch(choice))
 				return choice;
-			else if (stoi(choice) > 0 && (stoi(choice) < categories.size())) 
-				return categories[stoi(choice)];
-			else if (IfEligible(choice))
+			/*try
 			{
-				AddCat(choice); return choice;
+				if (stoi(choice) > 0 && (stoi(choice) < categories.size()))
+					return categories[stoi(choice)];
 			}
-			else ErrorMessage("у назві категорії мають бути літери, спробуйте ще раз\n");
+			catch (...)
+			{
+				
+			}*/
+			AddCat(choice); 
+			cout << "choice = " << choice << endl;
+			return choice;
 		}
+		
 	}
-	void Write()
-	{}
-	;
-	void Read()
-	{};
+	//void Write()
+	//{}
+	//;
+	//void Read()
+	//{};
 
 };
