@@ -55,6 +55,7 @@ public:
 		ID = obj.ID;
 
 	}
+	
 	Question operator = (Question obj)
 	{
 		nrofanswers = obj.nrofanswers;
@@ -63,7 +64,9 @@ public:
 		for (int i = 0; i < nrofanswers;i++)
 			answers[i] = obj.answers[i];
 		ID = obj.ID;
+		return *this;
 	}
+	
 	Question operator += (string ans)
 	{
 
@@ -194,6 +197,9 @@ public:
 			cout << "\t-" << i + 1 << " " << answers[i] << endl;
 	}
 	/* тест */
+
+
+
 	bool MakeQuiz(int &questionID)
 	{
 		questionID = ID;

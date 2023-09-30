@@ -26,13 +26,15 @@ public:
 	{
 		while(true)
 		{
-			int choice = choiceM("1 - переглянути питання, 2 - додати питання, 3 - випробувати тест, 0 - вийти з меню\n");
+			int choice = choiceM("1 - переглянути питання, 2 - додати питання, 3 - видалити питання, \
+4 - випробувати тест, 0 - вийти з меню\n");
 			switch (choice)
 			{
 			case 0: return;
 			case 1: quizbase->Show(); break;
 			case 2: quizbase->Add(); break;
-			case 3: 
+			case 3: quizbase->DeleteMenu(); break;
+			case 4: 
 			{
 				int progress = choiceM("з якого питання почати?\n");
 				int QuestionID; //

@@ -29,12 +29,28 @@ public:
 	/* додати питання */
 	void Add()
 	{
+		/* викликається з Quiz -> AdminQuiz */
 		Question newquestion(categories); // створення питання - через конструктор
 		questions.push_back(newquestion);
 		questions[questions.size() - 1].SetID(lastID + 1);
 		lastID++;
 		Write();			// запис до БД //
 	}
+	void DeleteMenu()
+	{
+		/* викликається з Quiz -> AdminQuiz */
+		{
+			int index = choiceM("яке питання видалити?\n");
+			Delete(index - 1); 
+		}
+	}
+
+	void Delete(int index)
+	{
+		questions.erase(questions.begin() + index);
+	}
+
+
 	/* редагувати питання з відповідями */
 	void Edit()
 	{
@@ -118,12 +134,16 @@ public:
 	{
 		cout << "усього питань: " << questions.size() << endl;
 		for (int i = 0; i < questions.size(); i++)
+		{
+			Message(green, to_string(i + 1) + ". ");
 			questions[i].ShowProperly();
-		int choice = (choiceM("1 - додати питання, 2 - редагувати питання, 0 - назад до меню"));
+		}
+		int choice = (choiceM("1 - додати питання, 2 - редагувати питання, 3-видалити питання, 0 - назад до меню"));
 		switch (choice)
 		{
 		case 1:Add(); break;
 		case 2:Edit(); break;
+		case 3:DeleteMenu(); break;
 		case 0: return; break;
 		default: return;
 		}

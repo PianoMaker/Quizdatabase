@@ -4,7 +4,7 @@ E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Phone.h(35,12): warning C426
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Mail.h(34,12): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Person.h(92,22): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\QuizBase.h(27,24): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-E:\G [docs]\C++ learn\DataBase-split\DataBase-split\QuizBase.h(195,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+E:\G [docs]\C++ learn\DataBase-split\DataBase-split\QuizBase.h(215,23): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Profile.h(81,27): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Profile.h(120,45): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
 E:\G [docs]\C++ learn\DataBase-split\DataBase-split\Profile.h(126,43): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
